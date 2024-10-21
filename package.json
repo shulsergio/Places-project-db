@@ -1,0 +1,34 @@
+{
+  "name": "places-project-db",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "module",
+    "url": "git+https://github.com/shulsergio/Places-project-db.git"
+  },
+  "keywords": [],
+  "author": "Shulga Sergey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shulsergio/Places-project-db/issues"
+  },
+  "homepage": "https://github.com/shulsergio/Places-project-db#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "eslint": "^9.13.0",
+    "globals": "^15.11.0",
+    "nodemon": "^3.1.7",
+    "pino-pretty": "^11.3.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "pino-http": "^10.3.0"
+  }
+}
