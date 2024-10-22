@@ -2,8 +2,8 @@ import { Router } from 'express';
 import {
   getAllPlacesControler,
   getPlaceByIdControler,
-} from '../controllers/places';
-import { ctrlWrapper } from '../utils/ctrlWrapper';
+} from '../controllers/places.js';
+import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 
 const router = Router();
 

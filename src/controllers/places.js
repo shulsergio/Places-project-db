@@ -1,4 +1,4 @@
-import { getAllPlaces, getPlaceById } from '../services/places';
+import { getAllPlaces, getPlaceById } from '../services/places.js';
 import createHttpError from 'http-errors';
 
 export const getAllPlacesControler = async (req, res) => {
