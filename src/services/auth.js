@@ -1,6 +1,9 @@
-//----- registerUser
-
 import createHttpError from 'http-errors';
+import { UsersCollection } from '../db/models/user';
+import bcrypt from 'bcrypt';
+// import { randomBytes } from 'crypto';
+
+//----- registerUser
 
 export const registerUser = async (payload) => {
   const user = await UsersCollection.findOne({ email: payload.email });
