@@ -4,11 +4,13 @@ import cors from 'cors';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import router from './routers/index.js';
+import cookieParser from 'cookie-parser';
 
 export const setupServer = () => {
   const app = express();
   const PORT = process.env.PORT || 4000;
   app.use(express.json());
+  app.use(cookieParser());
   app.use(cors());
   app.use(
     pino({
