@@ -12,7 +12,9 @@ import { isValidId } from '../middlewares/isValidid.js';
 import { authenticate } from '../middlewares/authenticate.js';
 
 const placesRouter = Router();
+
 placesRouter.use(authenticate);
+
 placesRouter.get('/', ctrlWrapper(getAllPlacesController));
 placesRouter.get('/:placeId', isValidId, ctrlWrapper(getPlaceByIdController));
 

@@ -1,25 +1,31 @@
 import { PlacesCollection } from '../db/models/place.js';
 
-export const getAllPlaces = async () => {
-  const places = await PlacesCollection.find();
+//--- User data functions
+
+export const getUserPlaces = async (userId) => {
+  const placesQuery = PlacesCollection.find({ userId });
+  const places = await placesQuery.exec();
+  console.log('places in getAllPlaces: ');
+  console.log(places);
+
   return places;
 };
 
-export const getPlaceById = async (placeId) => {
+export const getUserPlaceById = async (placeId) => {
   const place = await PlacesCollection.findById(placeId);
   return place;
 };
-export const createPlace = async (payload) => {
+export const createUserPlace = async (payload) => {
   const place = await PlacesCollection.create(payload);
   return place;
 };
 
-export const deletePlace = async (placeId) => {
+export const deleteUserPlace = async (placeId) => {
   const place = await PlacesCollection.findOneAndDelete({ _id: placeId });
   return place;
 };
 
-export const updatePlace = async (placeId, payload, options = {}) => {
+export const updateUserPlace = async (placeId, payload, options = {}) => {
   const rawResult = await PlacesCollection.findOneAndUpdate(
     { _id: placeId },
     payload,

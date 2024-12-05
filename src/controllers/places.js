@@ -1,14 +1,17 @@
-import {
-  createPlace,
-  deletePlace,
-  getAllPlaces,
-  getPlaceById,
-  updatePlace,
-} from '../services/places.js';
 import createHttpError from 'http-errors';
+import {
+  createUserPlace,
+  deleteUserPlace,
+  getUserPlaceById,
+  getUserPlaces,
+  updateUserPlace,
+} from '../services/places.js';
 
-export const getAllPlacesController = async (req, res) => {
-  const places = await getAllPlaces();
+export const getUserPlacesController = async (req, res) => {
+  const { _id: userId } = req.user;
+  console.log('userId in getAllPlacesController = ', userId);
+
+  const places = await getUserPlaces(userId);
   res.status(200).json({
     status: 200,
     message: 'Successfully found places!',
@@ -16,9 +19,9 @@ export const getAllPlacesController = async (req, res) => {
   });
 };
 
-export const getPlaceByIdController = async (req, res, next) => {
+export const getUserPlaceByIdController = async (req, res, next) => {
   const { placeId } = req.params;
-  const place = await getPlaceById(placeId);
+  const place = await getUserPlaceById(placeId);
   if (!place) {
     throw createHttpError(404, 'Place not found');
   }
@@ -28,8 +31,8 @@ export const getPlaceByIdController = async (req, res, next) => {
   });
 };
 
-export const createPlaceController = async (req, res) => {
-  const place = await createPlace(req.body);
+export const createUserPlaceController = async (req, res) => {
+  const place = await createUserPlace(req.body);
   console.log('place in createPlaceController: ', place);
   res.status(201).json({
     status: 201,
@@ -38,18 +41,18 @@ export const createPlaceController = async (req, res) => {
   });
 };
 
-export const deletePlaceController = async (req, res, next) => {
+export const deleteUserPlaceController = async (req, res, next) => {
   const { placeId } = req.params;
-  const place = await deletePlace(placeId);
+  const place = await deleteUserPlace(placeId);
   if (!place) {
     next(createHttpError(404, 'Place not found'));
   }
   res.status(204).send();
 };
 
-export const upsertPlaceController = async (req, res, next) => {
+export const updateUserPlaceController = async (req, res, next) => {
   const { placeId } = req.params;
-  const result = await updatePlace(placeId, req.body, { upsert: true });
+  const result = await updateUserPlace(placeId, req.body, { upsert: true });
   console.log('result in upsertPlaceController: ', result);
   if (!result) {
     next(createHttpError(404, 'Place not found'));
@@ -65,7 +68,7 @@ export const upsertPlaceController = async (req, res, next) => {
 
 export const patchPlaceController = async (req, res, next) => {
   const { placeId } = req.params;
-  const result = await updatePlace(placeId, req.body);
+  const result = await updateUserPlace(placeId, req.body);
   console.log('result in patchPlaceController: ', result);
   if (!result) {
     next(createHttpError(404, 'Place not found'));
