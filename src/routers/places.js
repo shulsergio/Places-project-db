@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import {
-  createPlaceController,
-  deletePlaceController,
-  getAllPlacesController,
-  getPlaceByIdController,
+  createUserPlaceController,
+  deleteUserPlaceController,
+  getUserPlaceByIdController,
+  getUserPlacesController,
   patchPlaceController,
-  upsertPlaceController,
+  updateUserPlaceController,
 } from '../controllers/places.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { isValidId } from '../middlewares/isValidid.js';
@@ -15,14 +15,26 @@ const placesRouter = Router();
 
 placesRouter.use(authenticate);
 
-placesRouter.get('/', ctrlWrapper(getAllPlacesController));
-placesRouter.get('/:placeId', isValidId, ctrlWrapper(getPlaceByIdController));
+placesRouter.get('/', ctrlWrapper(getUserPlacesController));
+placesRouter.get(
+  '/:placeId',
+  isValidId,
+  ctrlWrapper(getUserPlaceByIdController),
+);
 
-placesRouter.post('/', ctrlWrapper(createPlaceController));
+placesRouter.post('/', ctrlWrapper(createUserPlaceController));
 
-placesRouter.delete('/:placeId', isValidId, ctrlWrapper(deletePlaceController));
+placesRouter.delete(
+  '/:placeId',
+  isValidId,
+  ctrlWrapper(deleteUserPlaceController),
+);
 
-placesRouter.put('/:placeId', isValidId, ctrlWrapper(upsertPlaceController));
+placesRouter.put(
+  '/:placeId',
+  isValidId,
+  ctrlWrapper(updateUserPlaceController),
+);
 placesRouter.patch('/:placeId', isValidId, ctrlWrapper(patchPlaceController));
 
 export default placesRouter;
