@@ -1,4 +1,5 @@
 import { REFRESH_TOKEN } from '../constants/index.js';
+import { UsersCollection } from '../db/models/user.js';
 import {
   loginUser,
   logoutUser,
@@ -17,6 +18,10 @@ export const registerUserController = async (req, res) => {
 };
 
 export const loginUserController = async (req, res) => {
+  const user = await UsersCollection.findOne({ email: req.body.email });
+  if (!user) {
+    return res.status(404).json({ message: 'User not found' });
+  }
   const session = await loginUser(req.body);
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
@@ -31,8 +36,8 @@ export const loginUserController = async (req, res) => {
     message: 'Successfully logged in an user!',
     data: {
       user: {
-        name: session.user.name,
-        email: session.user.email,
+        name: user.name, // Имя пользователя
+        email: user.email, // Email пользователя
       },
       accessToken: session.accessToken,
     },
