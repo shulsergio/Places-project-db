@@ -1,15 +1,51 @@
 import { PlacesCollection } from '../db/models/place.js';
 
-//--- all data functions
-export const getAllUniqueCountries = async () => {
-  const countries = await PlacesCollection.distinct('location.country');
-  console.log('Unique country:', countries);
+//--- User data functions
 
-  return countries;
+export const getUserPlaces = async (userId) => {
+  const placesQuery = PlacesCollection.find({ userId: userId.toString() });
+  const places = await placesQuery.exec();
+  console.log('places in getAllPlaces: ', places);
+  console.log('userId in getAllPlaces: ', userId);
+
+  return places;
 };
 
-export const getAllUniqueCities = async () => {
-  const cities = await PlacesCollection.distinct('location.city');
+export const getUserPlaceById = async ({ placetId, userId }) => {
+  const place = await PlacesCollection.findById({
+    _id: placetId,
+    userId: userId,
+  });
+  return place;
+};
+export const createUserPlace = async (payload) => {
+  const place = await PlacesCollection.create(payload);
+  return place;
+};
 
-  return cities;
+export const deleteUserPlace = async (userId, placeId) => {
+  const place = await PlacesCollection.findOneAndDelete({
+    _id: placeId,
+    userId: userId,
+  });
+  return place;
+};
+
+export const updateUserPlace = async (placeId, payload, options = {}) => {
+  const rawResult = await PlacesCollection.findOneAndUpdate(
+    { _id: placeId },
+    payload,
+    {
+      new: true,
+      includeResultMetadata: true,
+      ...options,
+    },
+  );
+
+  if (!rawResult || !rawResult.value) return null;
+
+  return {
+    place: rawResult.value,
+    isNew: Boolean(rawResult?.lastErrorObject?.upserted),
+  };
 };
