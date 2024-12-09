@@ -24,9 +24,12 @@ export const createUserPlace = async (payload) => {
 };
 
 export const deleteUserPlace = async (userId, placeId) => {
+  console.log(' !!! userId in deleteUserPlace', userId);
+  console.log(' !!! placeId in deleteUserPlace', placeId);
+  console.log(' !!! placeId in deleteUserPlace', placeId);
   const place = await PlacesCollection.findOneAndDelete({
     _id: placeId,
-    userId: userId,
+    userId: userId.toString(), // Преобразование ObjectId в строку
   });
   return place;
 };

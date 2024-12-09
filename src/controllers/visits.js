@@ -69,8 +69,11 @@ export const createUserPlaceController = async (req, res) => {
 
 export const deleteUserPlaceController = async (req, res, next) => {
   const { placeId } = req.params;
+  console.log('---placeId in deleteUserPlaceController:', placeId);
   const { _id: userId } = req.user;
-  const place = await deleteUserPlace({ userId, placeId });
+  console.log('---req.user in deleteUserPlaceController:', req.user);
+  console.log('---userId in deleteUserPlaceController:', userId);
+  const place = await deleteUserPlace(userId, placeId);
   if (!place) {
     next(createHttpError(404, 'Place not found'));
   }
